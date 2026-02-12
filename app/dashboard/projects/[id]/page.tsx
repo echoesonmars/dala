@@ -183,8 +183,8 @@ export default function ProjectOverviewPage() {
       <header className="border-b-2 border-black">
         <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-6">
           <div className="flex items-center justify-between">
-            <Link href="/dashboard" className="text-2xl font-bold hover:opacity-60 transition-opacity">
-              DALA
+            <Link href="/dashboard" className="text-2xl font-[family-name:var(--font-shippori-mincho)] leading-none hover:opacity-60 transition-opacity flex items-center">
+              dala
             </Link>
             <div className="flex items-center gap-4">
               <span className="text-sm text-[#666]">{session?.user?.email}</span>

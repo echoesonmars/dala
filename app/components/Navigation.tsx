@@ -36,10 +36,10 @@ export function Navigation() {
           <div className="max-w-[1200px] mx-auto px-4 md:px-6 h-14 flex items-center gap-4">
             <Link
               href="/"
-              className="text-xl font-bold tracking-tight hover:opacity-60 transition-opacity shrink-0"
+              className="text-xl font-[family-name:var(--font-shippori-mincho)] leading-none hover:opacity-60 transition-opacity shrink-0 flex items-center"
               onClick={() => setMobileMenuOpen(false)}
             >
-              DALA
+              dala
             </Link>
 
             <div className="hidden md:flex items-center gap-5 flex-1 min-w-0">

@@ -6,7 +6,7 @@ export function Footer() {
       <div className="max-w-[1200px] mx-auto">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="text-3xl font-bold mb-4">DALA</div>
+            <div className="text-3xl font-[family-name:var(--font-shippori-mincho)] leading-none mb-4">dala</div>
             <p className="text-[#666] leading-relaxed mb-6">
               We built this platform because we think creators deserve better. 
               No percentage fees, no algorithm games, just transparent funding.

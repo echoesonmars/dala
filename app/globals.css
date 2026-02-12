@@ -24,11 +24,14 @@
   --border: oklch(0 0 0);
   --input: oklch(0.9 0 0);
   --ring: oklch(0 0 0);
+  --color-orange: #FF8400;
+  --color-dark-orange: #A65700;
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-shippori-mincho: var(--font-shippori-mincho);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -47,6 +50,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-orange: #FF8400;
+  --color-dark-orange: #A65700;
   --radius-sm: 0;
   --radius-md: 0;
   --radius-lg: 0;
@@ -62,6 +67,7 @@ html {
 body {
   background: white;
   color: black;
+  letter-spacing: -0.05em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -84,6 +90,11 @@ body {
   
   em, i {
     @apply not-italic;
+  }
+  
+  [style*="--font-shippori-mincho"],
+  .font-\[family-name\:var\(--font-shippori-mincho\)\] {
+    letter-spacing: -0.05em;
   }
 }
 
