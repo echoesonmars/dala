@@ -2,6 +2,7 @@
 
 import { useWizardStore } from "@/lib/store/wizard-store"
 import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const categories = [
   { id: "technology", label: "Technology" },
@@ -91,21 +92,24 @@ export function CategoryStep() {
           <label className="block text-sm font-mono uppercase tracking-wider mb-3">
             Category
           </label>
-          <select
+          <Select
             value={category}
-            onChange={(e) => {
-              setCategory(e.target.value)
+            onValueChange={(v) => {
+              setCategory(v)
               setSubcategory("")
             }}
-            className="w-full border-2 border-black px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-black bg-white"
           >
-            <option value="">Select a category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full h-12 text-lg">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              {categories.map((cat) => (
+                <SelectItem key={cat.id} value={cat.id}>
+                  {cat.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {category && (
@@ -113,18 +117,18 @@ export function CategoryStep() {
             <label className="block text-sm font-mono uppercase tracking-wider mb-3">
               Subcategory
             </label>
-            <select
-              value={subcategory}
-              onChange={(e) => setSubcategory(e.target.value)}
-              className="w-full border-2 border-black px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-black bg-white"
-            >
-              <option value="">Select a subcategory</option>
-              {subcategories[category]?.map((sub) => (
-                <option key={sub.id} value={sub.id}>
-                  {sub.label}
-                </option>
-              ))}
-            </select>
+            <Select value={subcategory} onValueChange={setSubcategory}>
+              <SelectTrigger className="w-full h-12 text-lg">
+                <SelectValue placeholder="Select a subcategory" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {subcategories[category]?.map((sub) => (
+                  <SelectItem key={sub.id} value={sub.id}>
+                    {sub.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
       </div>

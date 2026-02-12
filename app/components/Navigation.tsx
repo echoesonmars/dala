@@ -99,7 +99,7 @@ export function Navigation() {
             >
               <motion.span
                 className="w-5 h-0.5 bg-black block"
-                animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 4 : 0 }}
+                animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 8 : 0 }}
                 transition={{ duration: 0.2 }}
               />
               <motion.span
@@ -109,7 +109,7 @@ export function Navigation() {
               />
               <motion.span
                 className="w-5 h-0.5 bg-black block"
-                animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -4 : 0 }}
+                animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -8 : 0 }}
                 transition={{ duration: 0.2 }}
               />
             </button>

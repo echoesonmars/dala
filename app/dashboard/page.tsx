@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Navigation } from "@/app/components"
 
 const categories = [
@@ -174,29 +175,29 @@ export default function DashboardPage() {
         <div className="space-y-6 pt-4">
           <div className="space-y-2">
             <label className="block text-sm font-bold">Category</label>
-            <select
-              value={newProject.category}
-              onChange={(e) => setNewProject({ ...newProject, category: e.target.value })}
-              className="w-full border-2 border-black px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black"
-            >
-              <option value="">Select category</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>{c.label}</option>
-              ))}
-            </select>
+            <Select value={newProject.category} onValueChange={(v) => setNewProject({ ...newProject, category: v })}>
+              <SelectTrigger className="w-full h-11">
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {categories.map((c) => (
+                  <SelectItem key={c.id} value={c.id}>{c.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-bold">Country</label>
-            <select
-              value={newProject.country}
-              onChange={(e) => setNewProject({ ...newProject, country: e.target.value })}
-              className="w-full border-2 border-black px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black"
-            >
-              <option value="">Select country</option>
-              {countries.map((c) => (
-                <option key={c.id} value={c.id}>{c.label}</option>
-              ))}
-            </select>
+            <Select value={newProject.country} onValueChange={(v) => setNewProject({ ...newProject, country: v })}>
+              <SelectTrigger className="w-full h-11">
+                <SelectValue placeholder="Select country" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {countries.map((c) => (
+                  <SelectItem key={c.id} value={c.id}>{c.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <Button
             onClick={handleCreateProject}
@@ -337,8 +338,8 @@ export default function DashboardPage() {
                     <h3 className="text-lg font-bold mb-1">Backer</h3>
                     <p className="text-sm text-[#666]">Support projects you believe in</p>
                   </div>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                   </svg>
                 </div>
                 {pledges.length > 0 ? (

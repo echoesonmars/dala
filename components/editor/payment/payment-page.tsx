@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface PaymentPageProps {
   projectId: string
@@ -183,19 +184,19 @@ export function PaymentPage({ projectId, country, entityType: initialEntityType,
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                  <div className="space-y-4">
                   <div className="space-y-2">
                     <Label>Bank</Label>
-                    <select
-                      value={bank}
-                      onChange={(e) => setBank(e.target.value)}
-                      className="w-full border-2 border-black px-4 py-3 text-sm bg-white"
-                    >
-                      <option value="">Select your bank</option>
-                      {banks.map((b) => (
-                        <option key={b} value={b}>{b}</option>
-                      ))}
-                    </select>
+                    <Select value={bank} onValueChange={setBank}>
+                      <SelectTrigger className="w-full h-11">
+                        <SelectValue placeholder="Select your bank" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        {banks.map((b) => (
+                          <SelectItem key={b} value={b}>{b}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div className="space-y-2">

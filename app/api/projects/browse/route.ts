@@ -1,23 +1,41 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url)
     const category = searchParams.get("category")
+    const q = searchParams.get("q")
+    const sort = searchParams.get("sort") || "newest"
 
-    const where: Record<string, unknown> = { status: "active" }
+    const conditions: Prisma.ProjectWhereInput[] = [{ status: "active" }]
+
     if (category && category !== "All") {
-      where.category = category.toLowerCase()
+      conditions.push({ category: category.toLowerCase() })
     }
 
+    if (q && q.trim()) {
+      conditions.push({
+        OR: [
+          { title: { contains: q.trim(), mode: "insensitive" } },
+          { subtitle: { contains: q.trim(), mode: "insensitive" } },
+          { description: { contains: q.trim(), mode: "insensitive" } },
+        ],
+      })
+    }
+
+    let orderBy: Prisma.ProjectOrderByWithRelationInput = { createdAt: "desc" }
+    if (sort === "ending_soon") orderBy = { deadline: "asc" }
+    if (sort === "most_funded") orderBy = { goalAmount: "desc" }
+
     const projects = await prisma.project.findMany({
-      where,
+      where: { AND: conditions },
       include: {
         user: { select: { name: true } },
         _count: { select: { pledges: true } },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy,
       take: 50,
     })
 

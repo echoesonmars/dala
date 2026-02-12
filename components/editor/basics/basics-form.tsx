@@ -10,8 +10,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
+import { useUploadThing } from "@/lib/uploadthing"
 
 const categories = [
   {
@@ -153,6 +155,8 @@ export function BasicsForm({ projectId, initialData, onSaveStatusChange, onDirty
     setSelectedCategory(categoryValue)
   }, [categoryValue])
 
+  const { startUpload } = useUploadThing("projectImage")
+
   const uploadFile = useCallback(async (file: File) => {
     setUploadError("")
     const allowed = ["image/jpeg", "image/png", "image/webp"]
@@ -166,16 +170,13 @@ export function BasicsForm({ projectId, initialData, onSaveStatusChange, onDirty
     }
     setUploading(true)
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
-      if (!uploadRes.ok) {
-        const data = await uploadRes.json()
-        setUploadError(data.error || "Upload failed")
+      const res = await startUpload([file])
+      if (!res || res.length === 0) {
+        setUploadError("Upload failed")
         setUploading(false)
         return
       }
-      const { url } = await uploadRes.json()
+      const url = res[0].url
       const saveRes = await fetch(`/api/projects/${projectId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -190,7 +191,7 @@ export function BasicsForm({ projectId, initialData, onSaveStatusChange, onDirty
     } finally {
       setUploading(false)
     }
-  }, [projectId, onProjectUpdate])
+  }, [projectId, onProjectUpdate, startUpload])
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -379,15 +380,19 @@ export function BasicsForm({ projectId, initialData, onSaveStatusChange, onDirty
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Category</Label>
-            <select
-              {...register("category")}
-              className="w-full border-2 border-black px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black"
+            <Select
+              value={categoryValue}
+              onValueChange={(v) => setValue("category", v, { shouldDirty: true })}
             >
-              <option value="">Select category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.label}</option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full h-11">
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {categories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {errors.category && (
               <p className="text-xs text-black">{errors.category.message}</p>
             )}
@@ -395,16 +400,20 @@ export function BasicsForm({ projectId, initialData, onSaveStatusChange, onDirty
 
           <div className="space-y-2">
             <Label>Subcategory</Label>
-            <select
-              {...register("subcategory")}
-              className="w-full border-2 border-black px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black"
+            <Select
+              value={watch("subcategory") || ""}
+              onValueChange={(v) => setValue("subcategory", v, { shouldDirty: true })}
               disabled={!selectedCategory}
             >
-              <option value="">Select subcategory</option>
-              {subcategories.map((sub) => (
-                <option key={sub} value={sub}>{sub}</option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full h-11">
+                <SelectValue placeholder="Select subcategory" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {subcategories.map((sub) => (
+                  <SelectItem key={sub} value={sub}>{sub}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

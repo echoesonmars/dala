@@ -2,6 +2,7 @@
 
 import { useWizardStore } from "@/lib/store/wizard-store"
 import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const countries = [
   { id: "KZ", label: "Kazakhstan", currency: "KZT", payment: "Kaspi, Halyk, Jusan" },
@@ -50,18 +51,18 @@ export function LocationStep({ isLastStep = false }: { isLastStep?: boolean }) {
           <label className="block text-sm font-mono uppercase tracking-wider mb-3">
             Your country
           </label>
-          <select
-            value={country}
-            onChange={(e) => handleCountryChange(e.target.value)}
-            className="w-full border-2 border-black px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-black bg-white"
-          >
-            <option value="">Select your country</option>
-            {countries.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.label}
-              </option>
-            ))}
-          </select>
+          <Select value={country} onValueChange={handleCountryChange}>
+            <SelectTrigger className="w-full h-12 text-lg">
+              <SelectValue placeholder="Select your country" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              {countries.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {selectedCountry && (

@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Navigation, Footer } from "@/app/components"
+import { useUploadThing } from "@/lib/uploadthing"
 
 interface ProfileUser {
   id: string
@@ -459,23 +460,22 @@ function PostComposer({ projects, onPostCreated }: PostComposerProps) {
   const [showProjects, setShowProjects] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const { startUpload } = useUploadThing("postImage")
+
   const handleImageUpload = async (files: FileList) => {
-    if (images.length + files.length > 4) return
+    const remaining = 4 - images.length
+    if (remaining <= 0) return
+    const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/")).slice(0, remaining)
+    if (imageFiles.length === 0) return
     setUploading(true)
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      if (!file.type.startsWith("image/")) continue
-      const formData = new FormData()
-      formData.append("file", file)
-      try {
-        const res = await fetch("/api/upload", { method: "POST", body: formData })
-        if (res.ok) {
-          const data = await res.json()
-          setImages((prev) => [...prev, data.url])
-        }
-      } catch {
-        /* skip */
+    try {
+      const res = await startUpload(imageFiles)
+      if (res) {
+        const urls = res.map((r) => r.url)
+        setImages((prev) => [...prev, ...urls])
       }
+    } catch {
+      /* skip */
     }
     setUploading(false)
     if (fileInputRef.current) fileInputRef.current.value = ""
