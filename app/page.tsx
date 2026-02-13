@@ -1,5 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { 
   Navigation, 
@@ -15,6 +18,23 @@ import {
 import { featuredProjects } from "./data/projects"
 
 export default function Home() {
+  const { status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/feed")
+    }
+  }, [status, router])
+
+  if (status === "authenticated") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="inline-block w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />

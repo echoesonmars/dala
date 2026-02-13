@@ -118,7 +118,7 @@ export function PeoplePage({ projectId, vanitySlug, onSlugChange }: PeoplePagePr
           <Label>Project URL</Label>
           <div className="flex">
             <span className="inline-flex items-center px-4 border-2 border-r-0 border-black bg-[#fafafa] text-sm text-[#666] whitespace-nowrap">
-              dala.kz/projects/
+              dala.works/projects/
             </span>
             <Input
               value={slug}

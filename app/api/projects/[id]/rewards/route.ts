@@ -35,7 +35,7 @@ export async function POST(
     if (!project) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
     const { title, description, amount, shippingType, quantityLimit, itemIds } = await req.json()
-    if (!title || amount < 1) return NextResponse.json({ error: "Title and amount are required" }, { status: 400 })
+    if (!title || amount < 0) return NextResponse.json({ error: "Title is required and amount cannot be negative" }, { status: 400 })
 
     const reward = await prisma.rewardTier.create({
       data: {

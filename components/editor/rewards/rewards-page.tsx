@@ -262,7 +262,7 @@ export function RewardsPage({ projectId, currency, onRewardCountChange }: Reward
                         value={newTier.amount || ""}
                         onChange={(e) => setNewTier({ ...newTier, amount: Number(e.target.value) })}
                         className="pl-8"
-                        min={1}
+                        min={0}
                       />
                     </div>
                   </div>
@@ -323,7 +323,7 @@ export function RewardsPage({ projectId, currency, onRewardCountChange }: Reward
                     />
                   </div>
 
-                  <Button onClick={createTier} disabled={!newTier.title || newTier.amount < 1} className="w-full">
+                  <Button onClick={createTier} disabled={!newTier.title || newTier.amount < 0} className="w-full">
                     Create tier
                   </Button>
                 </div>
@@ -352,7 +352,7 @@ export function RewardsPage({ projectId, currency, onRewardCountChange }: Reward
                       <div className="flex items-baseline gap-3">
                         <p className="font-bold">{tier.title}</p>
                         <span className="text-sm text-[#666]">
-                          {symbol}{tier.amount}
+                          {tier.amount > 0 ? `${symbol}${tier.amount}` : "Free"}
                         </span>
                       </div>
                       {tier.description && <p className="text-xs text-[#666] mt-1">{tier.description}</p>}

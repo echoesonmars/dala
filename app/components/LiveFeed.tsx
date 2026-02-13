@@ -45,7 +45,6 @@ export function LiveFeed() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    // Инициализируем данные только на клиенте после монтирования
     setItems(Array.from({ length: 6 }, generateMockPledge))
     setMounted(true)
 
