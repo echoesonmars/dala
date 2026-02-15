@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { useState } from "react"
 import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { SearchBar } from "./SearchBar"
 
 const navLinks = [
@@ -15,13 +16,15 @@ const navLinks = [
 
 export function Navigation() {
   const { data: session, status } = useSession()
+  const router = useRouter()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const username = (session?.user as Record<string, unknown>)?.username as string | undefined
   const displayName = session?.user?.name || username || "Account"
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: "/" })
+    await signOut({ redirect: false })
+    router.push("/")
   }
 
   return (

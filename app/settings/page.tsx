@@ -138,12 +138,14 @@ export default function SettingsPage() {
         return
       }
       if (dangerAction === "delete") {
-        await signOut({ callbackUrl: "/" })
+        await signOut({ redirect: false })
+        router.push("/")
       } else {
         setDangerAction(null)
         setDangerPassword("")
         showMessage("Account deactivated", "success")
-        await signOut({ callbackUrl: "/" })
+        await signOut({ redirect: false })
+        router.push("/")
       }
     } catch {
       showMessage("Something went wrong", "error")
