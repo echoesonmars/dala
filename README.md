@@ -110,5 +110,4 @@ npm run build
 
 Required:
 - `DATABASE_URL` - MongoDB connection string
-- `NEXTAUTH_URL` - Application URL
 - `NEXTAUTH_SECRET` - Auth secret key
