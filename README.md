@@ -25,7 +25,6 @@ npm install
 Create `.env.local`:
 ```env
 DATABASE_URL="mongodb://localhost:27017/dala"
-NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="your-secret-key-change-in-production"
 ```
 
