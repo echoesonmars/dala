@@ -7,20 +7,34 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const project = await prisma.project.findFirst({
-      where: { id },
-      include: {
-        user: { select: { id: true, name: true, username: true, image: true } },
-        rewardTiers: { orderBy: { amount: "asc" } },
-      },
-    })
+
+    let project = null
+    const isObjectId = /^[a-f\d]{24}$/i.test(id)
+    if (isObjectId) {
+      project = await prisma.project.findFirst({
+        where: { id },
+        include: {
+          user: { select: { id: true, name: true, username: true, image: true } },
+          rewardTiers: { orderBy: { amount: "asc" } },
+        },
+      })
+    }
+    if (!project) {
+      project = await prisma.project.findFirst({
+        where: { vanitySlug: id },
+        include: {
+          user: { select: { id: true, name: true, username: true, image: true } },
+          rewardTiers: { orderBy: { amount: "asc" } },
+        },
+      })
+    }
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 })
     }
 
     const pledgeStats = await prisma.pledge.aggregate({
-      where: { projectId: id },
+      where: { projectId: project.id },
       _sum: { amount: true },
       _count: true,
     })

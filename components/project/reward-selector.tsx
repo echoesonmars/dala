@@ -25,7 +25,7 @@ export function RewardSelector({ rewards, currency }: RewardSelectorProps) {
         >
           <div className="flex items-baseline justify-between mb-2">
             <h3 className="font-bold text-lg">{reward.title}</h3>
-            <span className="text-xl font-bold tabular-nums">{currency}{reward.amount.toLocaleString()}</span>
+            <span className="text-xl font-bold tabular-nums">{reward.amount > 0 ? `${currency}${reward.amount.toLocaleString()}` : "Free"}</span>
           </div>
           {reward.description && (
             <p className="text-sm text-[#666] mb-3">{reward.description}</p>

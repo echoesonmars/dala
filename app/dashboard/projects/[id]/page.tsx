@@ -6,6 +6,7 @@ import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Navigation } from "@/app/components"
 
 interface Project {
   id: string
@@ -180,18 +181,7 @@ export default function ProjectOverviewPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="border-b-2 border-black">
-        <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-10 md:py-14">
-          <div className="flex items-center justify-between">
-            <Link href="/dashboard" className="text-2xl font-[family-name:var(--font-shippori-mincho)] leading-none hover:opacity-60 transition-opacity flex items-center">
-              dala
-            </Link>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-[#666]">{session?.user?.email}</span>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10 md:py-12">
         <div className="mb-8">

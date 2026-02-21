@@ -273,9 +273,9 @@ function PledgeDialogContent({
               >
                 <div className="flex justify-between items-baseline mb-1">
                   <p className="font-bold">{r.title}</p>
-                  <p className="text-sm font-bold">{currency}{r.amount}</p>
+                  <p className="text-sm font-bold">{r.amount > 0 ? `${currency}${r.amount}` : "Free"}</p>
                 </div>
-                <p className="text-xs text-[#666]">Pledge {currency}{r.amount} or more</p>
+                <p className="text-xs text-[#666]">{r.amount > 0 ? `Pledge ${currency}${r.amount} or more` : "Free reward"}</p>
               </button>
             ))}
           </>
@@ -292,18 +292,20 @@ function PledgeDialogContent({
                   value={amount || ""}
                   onChange={(e) => setAmount(Number(e.target.value))}
                   className="pl-10 h-14 text-2xl font-bold"
-                  min={1}
+                  min={0}
                 />
               </div>
               {selectedReward && (
                 <p className="text-xs text-[#666]">
-                  Minimum {currency}{rewards.find((r) => r.id === selectedReward)?.amount} for this reward
+                  {(rewards.find((r) => r.id === selectedReward)?.amount || 0) > 0
+                    ? `Minimum ${currency}${rewards.find((r) => r.id === selectedReward)?.amount} for this reward`
+                    : "This is a free reward — pledge any amount you like, or nothing at all"}
                 </p>
               )}
             </div>
             <div className="flex gap-3 pt-4">
               <Button variant="outline" onClick={onBack} className="flex-1">Back</Button>
-              <Button onClick={onContinue} disabled={amount < 1} className="flex-1">Continue</Button>
+              <Button onClick={onContinue} disabled={amount < 0} className="flex-1">Continue</Button>
             </div>
           </>
         )}
