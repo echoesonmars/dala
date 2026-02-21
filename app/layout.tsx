@@ -61,6 +61,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${shipporiMincho.variable} antialiased font-[family-name:var(--font-geist-sans)]`}
+        suppressHydrationWarning
       >
         <Providers>{children}</Providers>
       </body>
